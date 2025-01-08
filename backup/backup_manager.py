@@ -2,7 +2,6 @@ import shutil
 import os
 import hashlib
 from db.database_handler import insert_backup_metadata
-from encryptor import encrypt_file
 
 BACKUP_DIR = "backups/"
 
@@ -18,13 +17,10 @@ def create_backup(file_path):
         shutil.copy(file_path, dest_path)
         insert_backup_metadata(file_path, file_hash)
         print(f"Backup completed for {file_path}")
-
-        # encrypts file after creating backup
-        encrypt_file(dest_path)
     else:
         print(f"Duplicate file detected: {file_path}, skipping backup.")
 
- 
+
 def compute_file_hash(file_path):
     hasher = hashlib.sha256()
     with open(file_path, "rb") as f:
